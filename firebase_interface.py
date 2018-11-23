@@ -40,16 +40,18 @@ def ref(node: str = "/",
     Returns a `firebase_admin.db.reference` object or a dictionary (json) of
     database content.
     """
-    if not get:
-        return db.reference(node)  # just return the database reference
+    if isinstance(get, bool):
+        noderef = db.reference(node)
 
-    elif isinstance(get, bool):
-        ref = db.reference(node)
-        return ref, ref.get()  # return db reference and data
+        if not get:
+            return noderef  # just return the database reference
+
+        else:
+            return noderef, noderef.get()  # return db reference and data
 
     elif isinstance(get, dict):
-        ref = db.reference(node)
-        return ref, ref.get(**get)  # return db ref and data with parameters
+        noderef = db.reference(node)
+        return noderef, noderef.get(**get)  # return db ref, data w/ parameters
 
     else:
         raise RuntimeError(f"Unknown argument for get parameters: {get}.")

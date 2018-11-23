@@ -55,3 +55,54 @@ def ref(node: str = "/",
 
     else:
         raise RuntimeError(f"Unknown argument for get parameters: {get}.")
+
+
+def exists(key: str, node: str = "/", deepsearch: bool = False) -> bool:
+    """Check if `key` exists as child in `node`.
+
+    Default is a shallow search. If `deepsearch` is True, recursively search
+    nested dictionaries for `key`.
+
+    key:        str, the key to search for
+    node:       str (optional), the root node to start searching from
+    deepsearch: bool (optional), recursively search all child nodes of `node`
+
+    Returns True if key already exists in node, False otherwise.
+    """
+    noderef = db.reference(node)  # create reference instance
+
+    if not deepsearch:
+        nodekeys = noderef.get(shallow=True)
+
+        if isinstance(nodekeys, str):
+            nodekeys = [nodekeys]
+        else:
+            nodekeys = list(nodekeys.keys())
+
+        exists = key in nodekeys  # check if key is shallow nodekeys
+        return exists
+
+    else:
+        # define recursive dict search ----------------------------------------
+        def recursiveSearch(key: str, object: Union[dict, str]) -> bool:
+            """Recursively search all childs of `object` for `key`."""
+            if isinstance(object, str):  # check if lowest level is reached
+                if object == key:
+                    return True  # return true if found
+
+            elif isinstance(object, list):  # checking for key in lists
+                if key in object:
+                    return True
+
+            elif isinstance(object, dict):
+                for k, v in object.items():
+                    if k == key:  # check if key is
+                        return True
+                    else:
+                        result = recursiveSearch(key, v)
+                        if result is not None:
+                            return result
+
+        # actual else branch --------------------------------------------------
+        res = recursiveSearch(key, noderef.get())  # search result
+        return False if res is None else res

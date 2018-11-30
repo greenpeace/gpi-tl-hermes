@@ -107,3 +107,8 @@ def exists(key: str, node: str = "/", deepsearch: bool = False) -> bool:
         # actual else branch --------------------------------------------------
         res = recursiveSearch(key, noderef.get())  # search result
         return False if res is None else res
+
+
+def create(baseref: db.Reference, path: str) -> db.Reference:
+    """Create a childnode to `path` from `baseref`."""
+    return baseref.child(path)

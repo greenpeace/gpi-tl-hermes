@@ -8,8 +8,6 @@ from firebase_admin import db, credentials
 
 
 # wrapper functinos ----------------------------------------------------------
-
-
 def setup(creds: str,
           databaseURL: str = "https://gpi-it-1225.firebaseio.com/") -> fa.App:
     """

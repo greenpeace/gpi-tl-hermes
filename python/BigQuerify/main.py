@@ -21,22 +21,34 @@ table_ref = ds_ref.table(table_id)
 ds = client.get_dataset(ds_ref)
 table = client.get_table(table_ref)
 
-# TODO: distinction between write/create?
-# TODO: check if table exists or not
-# TODO: table-setup in a proper way
-
 
 def rowify(delta: dict, metadata: object) -> list:
     """Transform datadelta + metadata into a list of dicts with field-keys.
 
-    delta       dict, contains the path to the changed/new value in dict form
-    metadata    cloud function Context, contains event metadata
+    Args:
+        delta       dict, path to the changed/new value in key:value pairs
+        metadata    cloud function Context, contains event metadata
+
+    Expects the following structure of the delta event:
+        {'daytag': {'ID': {'article': {...},
+                           'sentiment': {...},
+                           'tags': {...}
+                           }
+                    }
+        }
     """
     row = dict()
-    row['ID'] = metadata.event_id
+
+    # unpacking the delta
+    (daytag, bundle), = delta.items()
+    (ID, content), = bundle.items()
+
+    # setting row values
+    row['ID'] = ID
     row['timestamp'] = metadata.timestamp
-    row['articleContent'] = delta['article']
-    row['sentimentContent'] = delta['sentiment']
+    row['articleContent'] = content['article']
+    row['sentimentContent'] = content['sentiment']
+    row['tags'] = content['tags']
 
     return [row]
 
@@ -50,4 +62,4 @@ def bigQuerify(event: dict, context: object) -> None:
     print(f"New entry to news archive with ID {context.event_id} at"
           " {context.timestamp}.")
 
-    client.insert_rows(rowify(event['delta'], context))
+    client.insert_rows(table, rowify(event['delta'], context))

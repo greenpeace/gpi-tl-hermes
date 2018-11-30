@@ -8,4 +8,5 @@ hermesSchema = [
     SchemaField('timestamp', 'TIMESTAMP', mode='REQUIRED'),
     SchemaField('articleContent', 'RECORD', mode='NULLABLE'),  # nested?
     SchemaField('sentimentContent', 'RECORD', mode='NULLABLE'),  # nested?,
+    SchemaField('tags', 'STRING', mode='NULLABLE')
     ]

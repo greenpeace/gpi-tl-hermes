@@ -3,7 +3,11 @@
 # imports
 import json
 
+# google interface
 from google.cloud import bigquery
+
+# custom stuff
+from schema import hermesSchema
 
 # bigquery setup --------------------------------------------------------------
 client = bigquery.Client()
@@ -20,22 +24,30 @@ table = client.get_table(table_ref)
 # TODO: distinction between write/create?
 # TODO: check if table exists or not
 # TODO: table-setup in a proper way
-# TODO: create BQify-able object
 
-def hello_rtdb(event, context):
+
+def rowify(delta: dict, metadata: object) -> list:
+    """Transform datadelta + metadata into a list of dicts with field-keys.
+
+    delta       dict, contains the path to the changed/new value in dict form
+    metadata    cloud function Context, contains event metadata
+    """
+    row = dict()
+    row['ID'] = metadata.event_id
+    row['timestamp'] = metadata.timestamp
+    row['articleContent'] = delta['article']
+    row['sentimentContent'] = delta['sentiment']
+
+    return [row]
+
+
+def bigQuerify(event: dict, context: object) -> None:
     """Triggered by a change to a Firebase RTDB reference.
     Args:
          event (dict): Event payload.
          context (google.cloud.functions.Context): Metadata for the event.
     """
-    import json
-    trigger_resource = context.resource
-    # print out the resource string that triggered the function
-    # print(f"Function triggered by change to: {resource_string}.")
-    # now print out the entire event object
-    # print(str(event))
-    # print(str(context))
-    print('Function triggered by change to: %s' % trigger_resource)
-    print('Admin?: %s' % event.get("admin", False))
-    print('Event:')
-    print(json.dumps(event))
+    print(f"New entry to news archive with ID {context.event_id} at"
+          " {context.timestamp}.")
+
+    client.insert_rows(rowify(event['delta'], context))

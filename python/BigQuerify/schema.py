@@ -1,12 +1,35 @@
 """BigQuery table schema for tl-hermes."""
 
-from google.cloud.bigquery import SchemaField
+from google.cloud.bigquery import SchemaField as SF
 
 # Schema
 hermesSchema = [
-    SchemaField('ID', 'STRING', mode='REQUIRED'),
-    SchemaField('timestamp', 'TIMESTAMP', mode='REQUIRED'),
-    SchemaField('articleContent', 'RECORD', mode='NULLABLE'),  # nested?
-    SchemaField('sentimentContent', 'RECORD', mode='NULLABLE'),  # nested?,
-    SchemaField('tags', 'STRING', mode='NULLABLE')
+    SF('ID', 'STRING', mode='REQUIRED'),
+    SF('timestamp', 'TIMESTAMP', mode='REQUIRED'),
+    SF('source', 'RECORD', mode='REQUIRED',
+       fields=(SF('title', 'STRING'),
+               SF('author', 'STRING'),
+               SF('date', 'DATETIME'),
+               SF('url', 'STRING'),
+               SF('body', 'STRING'),
+               SF('origin', 'STRING', description='twitter, facebook, ...'),
+               SF('tags', 'STRING', mode='REPEATED'),
+               SF('misc', 'STRING', mode='REPEATED')
+               )
+       ),
+    SF('sentiment', 'RECORD', mode='NULLABLE',
+       fields=(SF('overall', 'RECORD',
+                  fields=(SF('score', 'FLOAT'),
+                          SF('magnitude', 'FLOAT'),
+                          SF('categories', 'STRING', mode='REPEATED')
+                          )
+                  ),
+               SF('content', 'RECORD', mode='REPEATED',
+                  fields=(SF('text', 'STRING'),
+                          SF('score', 'FLOAT'),
+                          SF('mag', 'FLOAT')
+                          )
+                  )
+               )
+       )
     ]

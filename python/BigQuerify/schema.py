@@ -41,7 +41,7 @@ import datetime as dt
 testrow = [{"ID": "satehusa",
             "timestamp": str(dt.datetime.now(tz=dt.timezone.utc).isoformat()),
             "source": {"title": "hurr",
-                       "author": "durr",
+                       "author": ["durr"],
                        "date": str(dt.datetime(2054, 11, 7, 14, 5)),
                        "url": "www.fancyburr.nurr",
                        "body": "I am a body text.\nveeeeeeeeeeeeeeeeeeeeeery long \n mimomaseouha",
@@ -56,11 +56,11 @@ testrow = [{"ID": "satehusa",
                           "content": [
                             {"text": "I am one sentence.",
                              "score": 0.2,
-                             "mag": 5
+                             "magnitude": 5
                              },
                             {"text": "I am another sentence",
                              "score": 0.4,
-                             "mag": 5
+                             "magnitude": 5
                              }
                           ]
                           }

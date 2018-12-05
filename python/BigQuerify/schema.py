@@ -56,11 +56,11 @@ testrow = [{"ID": "satehusa",
                           "content": [
                             {"text": "I am one sentence.",
                              "score": 0.2,
-                             "mag": 5
+                             "magnitude": 5
                              },
                             {"text": "I am another sentence",
                              "score": 0.4,
-                             "mag": 5
+                             "magnitude": 5
                              }
                           ]
                           }

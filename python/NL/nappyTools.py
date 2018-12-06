@@ -133,7 +133,6 @@ class Content:
             The `client` is an instance of Google Natural Language's API to
             interact with.
         """
-
         # preparations
         document = lang.types.Document(
             content=self.source['body'],
@@ -156,4 +155,30 @@ class Content:
                 "text": s.text.content,
                 "score": s.sentiment.score,
                 "magnitude": s.sentiment.magnitude
+            })
+
+    def classify(self, client: lang.LanguageServiceClient) -> None:
+        """Classify the Content's `body`. Results are stored as list in the
+        sentiment attribute.
+
+        Parameters
+        ----------
+        client : lang.LanguageServiceClient
+            The `client` is an instance of Google Natural Language's API to
+            interact with.
+        """
+        # preparations
+        document = lang.types.Document(
+            content=self.source['body'].encode("utf-8"),  # chars -> utf8 codes
+            type=lang.enums.Document.Type.PLAIN_TEXT
+        )
+
+        # classification + processing -----------------------------------------
+        categories = client.classify_text(document).categories
+
+        self.sentiment['categories'] = []  # init
+        for cat in categories:
+            self.sentiment['categories'].append({
+                "category": cat.name,
+                "confidence": cat.confidence
             })

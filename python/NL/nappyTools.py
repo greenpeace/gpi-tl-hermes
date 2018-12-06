@@ -1,9 +1,11 @@
 """Tool collection to interact with Googles Natural Language API."""
+import datetime as dt
 
 from tying import Union, List
+from six import binary_type
+
 from google.cloud import language as lang
 
-import datetime as dt
 # setup
 nlClient = lang.LanguageServiceClient()
 
@@ -48,11 +50,12 @@ class Content:
             "author": [author] if isinstance(author, str) else author,
             "date": str(date),
             "url": url,
-            "body": body,
+            "body": body.decode('utf-8') if isinstance(body, binary_type) else body,
             "origin": origin,
             "tags": [tags] if isinstance(tags, str) else tags,
             "misc": [misc] if isinstance(misc, str) else misc
         }
+        self.sentiment = dict()  # will be set later
 
     # properties --------------------------------------------------------------
     @property
@@ -120,3 +123,28 @@ class Content:
             self._sentiment = data
 
     # methods -----------------------------------------------------------------
+    def analyse(self, client: lang.LanguageServiceClient) -> None:
+
+        # preparations
+        document = lang.types.Document(
+            content=self.source['body'],
+            type=lang.enums.Document.Type.PLAIN_TEXT
+        )
+
+        # analysis + processing -----------------------------------------------
+        annotations = client.analyze_sentiment(document=document)
+
+        # overall
+        self.sentiment['overall'] = {
+            "score": annotations.document_sentiment.score,
+            "magnitude": annotations.document_sentiment.magnitude
+        }
+
+        # sentence-wise
+        self.sentiment['content'] = []
+        for s in annotations.sentences:
+            self.sentiment['content'].append({
+                "text": s.text.content,
+                "score": s.sentiment.score,
+                "magnitude": s.sentiment.magnitude
+            })

@@ -21,7 +21,11 @@ hermesSchema = [
        fields=(SF('overall', 'RECORD', mode='REQUIRED',
                   fields=(SF('score', 'FLOAT'),
                           SF('magnitude', 'FLOAT'),
-                          SF('categories', 'STRING', mode='REPEATED')
+                          SF('categories', 'RECORD', mode='REPEATED',
+                             fields=(SF('category', 'STRING'),
+                                     SF('confidence', 'FLOAT')
+                                     )
+                             )
                           )
                   ),
                SF('content', 'RECORD', mode='REPEATED',
@@ -51,7 +55,18 @@ testrow = [{"ID": "satehusa",
                        },
             "sentiment": {"overall": {"score": 1.4567,
                                       "magnitude": 665234.4,
-                                      "categories": ["nifty", "schwifty", "drifty"]
+                                      "categories": [{
+                                        "category": "nifty",
+                                        "confidence": 0.745
+                                       },
+                                       {
+                                        "category": "schwifty",
+                                        "confidence": 0.655,
+                                       },
+                                       {
+                                        "category": "drifty",
+                                        "confidence": 0.667
+                                       }]
                                       },
                           "content": [
                             {"text": "I am one sentence.",

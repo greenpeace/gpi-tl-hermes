@@ -1,7 +1,7 @@
 """Tool collection to interact with Googles Natural Language API."""
 import datetime as dt
 
-from tying import Union, List
+from typing import Union, List
 from six import binary_type
 
 from google.cloud import language as lang
@@ -157,6 +157,9 @@ class Content:
                 "magnitude": s.sentiment.magnitude
             })
 
+        # cleanup
+        del annotations, document
+
     def classify(self, client: lang.LanguageServiceClient) -> None:
         """Classify the Content's `body`. Results are stored as list in the
         sentiment attribute.
@@ -176,9 +179,21 @@ class Content:
         # classification + processing -----------------------------------------
         categories = client.classify_text(document).categories
 
-        self.sentiment['categories'] = []  # init
+        self.sentiment['overall']['categories'] = []  # init
         for cat in categories:
-            self.sentiment['categories'].append({
+            self.sentiment['overall']['categories'].append({
                 "category": cat.name,
                 "confidence": cat.confidence
             })
+
+        # cleanup
+        del categories, document
+
+    def jsonify(self, client: lang.LanguageServiceClient,
+                automagic: bool = False) -> dict:
+
+        if automagic:
+            self.analyse(client)  # analysis
+            self.classify(client)  # classification
+
+        return {"source": self.source, "sentiment": self.sentiment}

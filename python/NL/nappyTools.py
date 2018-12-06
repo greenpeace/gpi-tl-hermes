@@ -6,12 +6,28 @@ from six import binary_type
 
 from google.cloud import language as lang
 
-# setup
-nlClient = lang.LanguageServiceClient()
-
 
 class Content:
-    """Web content to be analysed and classified."""
+    """Web content to be analysed and classified.
+
+    Parameters
+    ----------
+    For a parameter description please refer to the `__init__` method.
+
+    Attributes
+    ----------
+    _source : dict
+        `_source` is the hidden attribute for `source`.
+    _sentiment : dict
+        `_sentiment` is the hidden attribute for `sentiment`.
+    source : dict
+        The `source` attribute contains a dictionary with values refering to
+        metadata and content related data of the source (e.g. author, title)
+    sentiment : dict
+        The `sentiment` attribute contains an empty dictionary, than can be
+        filled with sentiment content using the `analyse` and/or `classify`
+        methods or by calling `jsonify` with `automagic=True` set.
+    """
 
     __slots__ = ["_source", "_sentiment"]
 

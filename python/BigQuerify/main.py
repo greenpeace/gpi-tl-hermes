@@ -6,9 +6,6 @@ import json
 # google interface
 from google.cloud import bigquery
 
-# custom stuff
-from schema import hermesSchema
-
 # bigquery setup --------------------------------------------------------------
 client = bigquery.Client()
 dataset_id = "tl_hermes"
@@ -43,7 +40,7 @@ def rowify(delta: dict, metadata: object) -> list:
     (daytag, bundle), = delta.items()
     (ID, content), = bundle.items() if bundle is not None else ('', None),
 
-    if bundle not None:
+    if bundle is not None:
         if content is not None:  # None means deleted node
             # we assume here that the structure is almost perfect now
             row['ID'] = ID

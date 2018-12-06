@@ -124,6 +124,15 @@ class Content:
 
     # methods -----------------------------------------------------------------
     def analyse(self, client: lang.LanguageServiceClient) -> None:
+        """Analyse the sentiment of Content's `body`. Results are processed and
+        stored in the `sentiment` attribute.
+
+        Parameters
+        ----------
+        client : lang.LanguageServiceClient
+            The `client` is an instance of Google Natural Language's API to
+            interact with.
+        """
 
         # preparations
         document = lang.types.Document(

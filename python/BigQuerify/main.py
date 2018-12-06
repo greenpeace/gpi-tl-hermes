@@ -30,25 +30,33 @@ def rowify(delta: dict, metadata: object) -> list:
         metadata    cloud function Context, contains event metadata
 
     Expects the following structure of the delta event:
-        {'daytag': {'ID': {'article': {...},
+        {'daytag': {'ID': {'source': {...},
                            'sentiment': {...},
-                           'tags': {...}
                            }
                     }
         }
+    see `tl-hermes/python/BigQuerify/schema.py` for more details.
     """
     row = dict()
 
     # unpacking the delta
     (daytag, bundle), = delta.items()
-    (ID, content), = bundle.items()
+    (ID, content), = bundle.items() if bundle is not None else ('', None),
 
-    # setting row values
-    row['ID'] = ID
-    row['timestamp'] = metadata.timestamp
-    row['articleContent'] = content['article']
-    row['sentimentContent'] = content['sentiment']
-    row['tags'] = content['tags']
+    if bundle not None:
+        if content is not None:  # None means deleted node
+            # we assume here that the structure is almost perfect now
+            row['ID'] = ID
+            row['timestamp'] = metadata.timestamp
+            for key, value in content.items():  # keys = source, sentiment
+                row[key] = value  # lift one level of nested entries
+
+        else:  # prints are logged directly
+            print(f"Node {daytag}/{ID} has been deleted at "
+                  "{metadata.timestamp}.")
+
+    else:
+        print(f"Node {daytag}/ has been deleted at {metadata.timestamp}.")
 
     return [row]
 

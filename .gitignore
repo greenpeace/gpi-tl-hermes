@@ -3,3 +3,4 @@ python/__pycache__/*
 python/BigQuerify/__pycache__/*
 python/hermes/nappy/__pycache__/*
 python/hermes/nappy/tests/*
+python/hermes/__pycache__/*

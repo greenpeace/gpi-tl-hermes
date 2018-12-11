@@ -1,15 +1,13 @@
 #! /usr/bin/env python
 """A collectaion of wrapper functions to interface with Firebase DB."""
 
-from typing import Union, Tuple
+from typing import Union, Tuple, Optional
 
 import firebase_admin as fa
 from firebase_admin import db, credentials
 
 
 # wrapper functinos ----------------------------------------------------------
-
-
 def setup(creds: str,
           databaseURL: str = "https://gpi-it-1225.firebaseio.com/") -> fa.App:
     """
@@ -84,7 +82,8 @@ def exists(key: str, node: str = "/", deepsearch: bool = False) -> bool:
 
     else:
         # define recursive dict search ----------------------------------------
-        def recursiveSearch(key: str, object: Union[dict, str]) -> bool:
+        def recursiveSearch(key: str,
+                            object: Union[dict, str]) -> Optional[bool]:
             """Recursively search all childs of `object` for `key`."""
             if isinstance(object, str):  # check if lowest level is reached
                 if object == key:
@@ -106,3 +105,8 @@ def exists(key: str, node: str = "/", deepsearch: bool = False) -> bool:
         # actual else branch --------------------------------------------------
         res = recursiveSearch(key, noderef.get())  # search result
         return False if res is None else res
+
+
+def create(baseref: db.Reference, path: str) -> db.Reference:
+    """Create a childnode to `path` from `baseref`."""
+    return baseref.child(path)

@@ -42,8 +42,8 @@ def call(params: dict, ephemeral: bool = True) -> Optional[list]:
     while end >= start:
         # setup of filename day-wise
         datestr = start.strftime("%Y-%m-%d")
-        datestr = f"{datestr}_{params['q'].replace(' ', '_')}"
-        filename = os.path.join(LOCAL_STORAGE, f"{datestr}.json")
+        filename = f"{datestr}_{params['q'].replace(' ', '_')}"
+        filename = os.path.join(LOCAL_STORAGE, f"{filename}.json")
 
         articleList = []
         # day-wise

@@ -28,22 +28,29 @@ def call(params: dict, ephemeral: bool = True) -> Optional[list]:
         responses.
     """
     # setup of local storage
-    LOCAL_STORAGE = os.path.join("temp", "articles")
-    os.makedirs(LOCAL_STORAGE, exist_ok=True)
+    if not ephemeral:
+        LOCAL_STORAGE = os.path.join("temp", "articles")
+        os.makedirs(LOCAL_STORAGE, exist_ok=True)
 
     # API endpoint
     ENDPOINT = "http://content.guardianapis.com/search"
 
-    start = dt.datetime.fromisoformat(params['from-date'])
-    end = dt.datetime.fromisoformat(params['to-date'])
+    # check if config contains date-range
+    if (params['from-date'] == "") or (params['to-date'] == ""):
+        end = dt.datetime.now()
+        start = end
+    else:
+        start = dt.datetime.fromisoformat(params['from-date'])
+        end = dt.datetime.fromisoformat(params['to-date'])
 
     fullContent = []
 
     while end >= start:
         # setup of filename day-wise
         datestr = start.strftime("%Y-%m-%d")
-        filename = f"{datestr}_{params['q'].replace(' ', '_')}"
-        filename = os.path.join(LOCAL_STORAGE, f"{filename}.json")
+        if not ephemeral:
+            filename = f"{datestr}_{params['q'].replace(' ', '_')}"
+            filename = os.path.join(LOCAL_STORAGE, f"{filename}.json")
 
         articleList = []
         # day-wise

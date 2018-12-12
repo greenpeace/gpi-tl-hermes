@@ -26,6 +26,12 @@ def call(params: dict, ephemeral: bool = True) -> Optional[list]:
         Set `ephemeral` to `False` if instead of writing to files the content
         should be returned as a list of dictionaries containing the processed
         responses.
+
+    Returns
+    -------
+    Optional[list]
+        If `ephemeral` is set, returns a processed list of all requested data.
+
     """
     # setup of local storage
     if not ephemeral:
@@ -83,6 +89,20 @@ def call(params: dict, ephemeral: bool = True) -> Optional[list]:
 
 
 def process(data: dict) -> dict:
+    """Slim The Guardian's output to a useable amount.
+
+    Parameters
+    ----------
+    data : dict
+        The `data` is the raw The Guardian API's output.
+
+    Returns
+    -------
+    dict
+        Can be directly used in conjunction with the `Content` class via
+        Content(**dict).
+
+    """
     # title, author, date, url, body, origin, tags, misc
     diet = {
         "title": data['webTitle'],

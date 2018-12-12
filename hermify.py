@@ -1,6 +1,6 @@
 """Actual script that does the magic.
 
-Refer to the README for more structural info (TODO).
+Refer to the README for more structural info.
 """
 
 import json
@@ -16,6 +16,25 @@ from hermes.nappy.tools import Content
 # helper function
 def duplicate(children: list, searchdict: dict,
               precision: float = 0.99) -> bool:
+    """Search for duplicates in all `children` of '/'.
+
+    Parameters
+    ----------
+    children : list
+        `children` contain day tags of the RTDB like "2018-12-12".
+    searchdict : dict
+        `searchdict` contains values for `title`, sentiment `score` and
+        `magnitude` to search for.
+    precision : float
+        `precision` defines how close the given search values for `score` and
+        `magnitude` need to be to the found ones to be accepted as a match.
+
+    Returns
+    -------
+    bool
+        Returns True if a duplicate is found, False if not.
+
+    """
     # more helper functions:
     def match(a: float, b: float) -> float:
         """Returns the (absolute) matching percentage of `a` and `b`."""
@@ -56,7 +75,7 @@ def duplicate(children: list, searchdict: dict,
 app = fbi.setup("../firebase_creds/gpi-it-1225-fba.json")
 
 # natural language API client
-nlClient = lang.LanguageServiceClient()  # needs GCP credentials (TODO: see README)
+nlClient = lang.LanguageServiceClient()  # needs GCP credentials
 
 # #################################### [2] ################################## #
 # create daytag

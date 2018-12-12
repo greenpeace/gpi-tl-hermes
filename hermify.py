@@ -8,6 +8,7 @@ import datetime as dt
 from google.cloud import language as lang
 
 import hermes.firebaseInterface as fbi
+from hermes.api import theguardian
 from hermes.nappy.tools import Content
 
 
@@ -69,18 +70,21 @@ else:
 
 # #################################### [4] ################################## #
 # API call
-data = {}  # response of some API + processing
+with open("path/to/api/config.json", "r") as config:
+    params = json.load(config)
+dataList = theguardian.call(params, ephemeral=True)
 
 # #################################### [5] ################################## #
 # Content instance
-entry = Content(**data).jsonify(automagic=True)  # NL API call
-searchdict = {
-    "author": entry['source']['author'],
-    "sentiment": entry['sentiment']['overall']['score'],
-    "magnitude": entry['sentiment']['overall']['magnitude']
-}
+for data in dataList:
+    entry = Content(**data).jsonify(automagic=True)  # NL API call
+    searchdict = {
+        "author": entry['source']['author'],
+        "sentiment": entry['sentiment']['overall']['score'],
+        "magnitude": entry['sentiment']['overall']['magnitude']
+    }
 
-# #################################### [6] ################################## #
-# deduplication
-if not duplicate(children, searchdict):
-    nodeToday.push(entry)  # [i]
+    # ################################## [6] ################################ #
+    # deduplication
+    if not duplicate(children, searchdict):
+        nodeToday.push(entry)  # [i]

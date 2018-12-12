@@ -1,0 +1,10 @@
+{
+    "from-date": "2018-12-10",
+    "to-date": "2018-12-12",
+    "order-by": "newest",
+    "show-fields": "all",
+    "show-tags": "all",
+    "page-size": 200,
+    "api-key": "your-key-here",
+    "q": "greenpeace OR environment"
+}

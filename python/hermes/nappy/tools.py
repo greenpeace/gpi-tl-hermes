@@ -12,7 +12,23 @@ class Content:
 
     Parameters
     ----------
-    For a parameter description please refer to the `__init__` method.
+    title : str
+        The `title` of the content.
+    author : Union[str, List[str]]
+        The `author`(s) of the article/tweet/post.
+    date : dt.datetime
+        The publishing `date`.
+    url : str
+        The `url` to the Content.
+    body : str
+        The `body` of the Content, i.e. the actually interesting part.
+    origin : str
+        `origin`, i.e. from facebook, twitter, any other news site, ...
+    tags : Union[str, List[str]]
+        `tags`, i.e. hashtags or any other category tags prior to Content
+        classification.
+    misc : Union[str, List[str]]
+        `misc`, i.e. everything that doesn't fit in the keywords above.
 
     Attributes
     ----------
@@ -34,28 +50,7 @@ class Content:
     def __init__(self, *, title: str, author: Union[str, List[str]],
                  date: dt.datetime, url: str, body: str, origin: str,
                  tags: Union[str, List[str]], misc: Union[str, List[str]]):
-        """Creates a new instance of `Content`.
-
-        Parameters
-        ----------
-        title : str
-            The `title` of the content.
-        author : Union[str, List[str]]
-            The `author`(s) of the article/tweet/post.
-        date : dt.datetime
-            The publishing `date`.
-        url : str
-            The `url` to the Content.
-        body : str
-            The `body` of the Content, i.e. the actually interesting part.
-        origin : str
-            `origin`, i.e. from facebook, twitter, any other news site, ...
-        tags : Union[str, List[str]]
-            `tags`, i.e. hashtags or any other category tags prior to Content
-            classification.
-        misc : Union[str, List[str]]
-            `misc`, i.e. everything that doesn't fit in the keywords above.
-        """
+        """Create a new `Content` instance."""
         # initialize
         self._source = None
         self._sentiment = None

@@ -6,6 +6,7 @@ Add `export $PYTHONPATH=/path/to/tl-hermes/python/` to your favourite *sh's conf
 ```Python
 import hermes.firebaseInterface as fbi
 from hermes.nappy.tools import Content
+from hermes.api import theguardian
 ```
 
 ### Structure of the `hermify` script
@@ -16,3 +17,11 @@ from hermes.nappy.tools import Content
   5. Create `Content` instance & do sentiment analysis
   6. Deduplication -> check if content of response is in RTDB and if not:
      1. Push content to RTDB (automatically added to BigQuery)
+
+### How to use the `hermify` script
+  1. Create a folder `api_configs` in the same directory as `hermes.py`. 
+  2. Place an API config like the example config in `python/hermes/api/guardian_example_settings.json` in `api_configs` and adapt the contents accordingly (side note: empty strings for one or both of the date sections will result in the script just requesting today's data.
+  3. call the script with `python hermify.py` (python 3 of course)
+
+### Dependencies
+-tbd-

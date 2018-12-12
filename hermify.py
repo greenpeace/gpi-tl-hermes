@@ -12,14 +12,34 @@ from hermes.nappy.tools import Content
 
 
 # helper function
-def duplicate(children: list, searchstring: str,
-              endnodes: list = ["title", "url", "author"]) -> bool:
+def duplicate(children: list, searchdict: dict,
+              precision: float = 0.99) -> bool:
+    # more helper functions:
+    def match(a: float, b: float) -> float:
+        """Returns the (absolute) matching percentage of `a` and `b`."""
+        a = abs(a)
+        b = abs(b)
+        return min(a, b)/max(a, b)
+
+    # iterate over all daytags
     for child in children:
+        # get daytag reference and it's IDs
         childnode, ids = fbi.ref(child, get={"shallow": True})
+        ids = list(ids)
+
+        # iterate over all IDs and check for an already existing article
         for i in ids:
-            results = [fbi.ref(f"{child}/{i}/source/{s}")[1] for s in endnodes]
-            if searchstring in results:
-                return True
+            # get values for author, and overall sentiment and magnitude
+            _, author = fbi.ref(f"{child}/{i}/source/author")
+            _, overall = fbi.ref(f"{child}/{i}/sentiment/overall")
+
+            # check if author(s) are same
+            if (set(author) == set(searchdict['author'])):
+                # check if sentiment and magnitude match the precision crit.
+                senMat = match(searchdict['sentiment'], overall['score'])
+                magMat = match(searchdict['magnitude'], overall['magnitude'])
+                if (senMat >= precision) and (magMat >= precision):
+                    return True
 
     return False
 
@@ -52,7 +72,15 @@ else:
 data = {}  # response of some API + processing
 
 # #################################### [5] ################################## #
+# Content instance
+entry = Content(**data).jsonify(automagic=True)  # NL API call
+searchdict = {
+    "author": entry['source']['author'],
+    "sentiment": entry['sentiment']['overall']['score'],
+    "magnitude": entry['sentiment']['overall']['magnitude']
+}
+
+# #################################### [6] ################################## #
 # deduplication
-if not duplicate(children, data['title']):
-    entry = Content(**data)  # [i]
-    nodeToday.push(entry.jsonify(automagic=True)  # [ii]
+if not duplicate(children, searchdict):
+    nodeToday.push(entry)  # [i]

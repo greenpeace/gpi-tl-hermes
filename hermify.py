@@ -3,6 +3,7 @@
 Refer to the README for more structural info (TODO).
 """
 
+import json
 import datetime as dt
 
 from google.cloud import language as lang
@@ -20,7 +21,12 @@ def duplicate(children: list, searchdict: dict,
         """Returns the (absolute) matching percentage of `a` and `b`."""
         a = abs(a)
         b = abs(b)
-        return min(a, b)/max(a, b)
+
+        # catching edge cases
+        if max(a, b) != 0:
+            return min(a, b)/max(a, b)
+        else:  # if max == 0 => min == 0
+            return 1.0
 
     # iterate over all daytags
     for child in children:
@@ -60,6 +66,7 @@ today = dt.datetime.now().isoformat().split("T")[0]
 # instanciate root node and get its children (in list form)
 rootNode, children = fbi.ref('/', get={"shallow": True})
 children = [] if children is None else list(children)
+print(f"::[diag] Found daytags: {children}")
 
 # setup today's node
 if today in children:
@@ -70,14 +77,16 @@ else:
 
 # #################################### [4] ################################## #
 # API call
-with open("path/to/api/config.json", "r") as config:
+with open("api_configs/guardian_settings.json", "r") as config:
     params = json.load(config)
+print(f"::[diag] done reading The Guardian parameters, calling API now...")
 dataList = theguardian.call(params, ephemeral=True)
 
 # #################################### [5] ################################## #
 # Content instance
+print(f"::[diag] Found {len(dataList)} entries for given parameters.")
 for data in dataList:
-    entry = Content(**data).jsonify(automagic=True)  # NL API call
+    entry = Content(**data).jsonify(nlClient, automagic=True)  # NL API call
     searchdict = {
         "author": entry['source']['author'],
         "sentiment": entry['sentiment']['overall']['score'],
@@ -86,5 +95,8 @@ for data in dataList:
 
     # ################################## [6] ################################ #
     # deduplication
+    print(f"::[diag] Running deduplication check now...")
     if not duplicate(children, searchdict):
         nodeToday.push(entry)  # [i]
+    else:
+        print(f"::[diag] Found a duplicate: {entry['source']['title']}")

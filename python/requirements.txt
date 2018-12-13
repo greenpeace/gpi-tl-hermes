@@ -1,0 +1,7 @@
+firebase-admin==2.13.0
+google-cloud-bigquery==1.6.0
+google-cloud-language==1.1.0
+jsonschema==2.6.0
+requests==2.20.1
+requests-oauthlib==1.0.0
+six==1.11.0

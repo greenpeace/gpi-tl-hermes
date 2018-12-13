@@ -24,4 +24,5 @@ from hermes.api import theguardian
   3. call the script with `python hermify.py` (python 3 of course)
 
 ### Dependencies
--tbd-
+`Python==3.7.1`
+For packages, please refer to the [requirements.txt](python/requirements.txt). Install them via `pip install -r requirements.txt`.

@@ -197,6 +197,13 @@ class Content:
                 "confidence": cat.confidence
             })
 
+        # no category found
+        if len(self.sentiment['overall']['categories']) == 0:
+            self.sentiment['overall']['categories'].append({
+                "category": "",
+                "confidence": 1
+            })
+
         # cleanup
         del categories, document
 

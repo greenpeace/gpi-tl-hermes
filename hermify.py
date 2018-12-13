@@ -51,7 +51,7 @@ def duplicate(children: list, searchdict: dict,
     for child in children:
         # get daytag reference and it's IDs
         childnode, ids = fbi.ref(child, get={"shallow": True})
-        ids = list(ids)
+        ids = list(ids) if ids is not None else []
 
         # iterate over all IDs and check for an already existing article
         for i in ids:

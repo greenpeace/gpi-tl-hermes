@@ -103,11 +103,11 @@ def process(data: dict) -> dict:
         Content(**dict).
 
     """
-    # title, author, date, url, body, origin, tags, misc
+    date = " ".join(data['webPublicationDate'].replace("Z", "").split("T"))
     diet = {
         "title": data['webTitle'],
         "author": [data['fields']['byline']],  # needs to be list
-        "date": data['webPublicationDate'],
+        "date": date,
         "url": data['webUrl'],
         "body": data['fields']['bodyText'],
         "origin": "The Guardian",

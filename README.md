@@ -1,6 +1,8 @@
 # tl-hermes
 News Aggregations and Sentiment Analysis app
 
+[![TechLab Presentation](https://drive.google.com/uc?export=view&id=1Fk0ZrI2UoEKlj7TvQm38FJSZhSPTbvK0)](https://drive.google.com/open?id=1-4NuBl5tVsD18jViMEJYk7vmN4eaE9TA)
+
 ### Using the `hermes` python module
 Add `export PYTHONPATH=/path/to/tl-hermes/python/` to your favourite *sh's configuration file. Then hermes can be used e.g. with
 ```Python
@@ -26,3 +28,4 @@ from hermes.api import theguardian
 ### Dependencies
 `Python==3.7.1`
 For packages, please refer to the [requirements.txt](python/requirements.txt). Install them via `pip install -r requirements.txt`.
+c

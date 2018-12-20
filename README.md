@@ -28,4 +28,3 @@ from hermes.api import theguardian
 ### Dependencies
 `Python==3.7.1`
 For packages, please refer to the [requirements.txt](python/requirements.txt). Install them via `pip install -r requirements.txt`.
-c

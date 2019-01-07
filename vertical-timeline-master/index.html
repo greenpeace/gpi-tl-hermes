@@ -176,7 +176,7 @@
 
 		firebase.initializeApp(firebaseAuth);
 		var database = firebase.database()
-		var dbRef = database.ref('/' + today + '/');
+		var dbRef = database.ref('data/' + today + '/');
 		dbRef.on('value', gotData, errData)
 
 		}

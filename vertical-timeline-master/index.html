@@ -12,6 +12,9 @@
 	<link rel="stylesheet" href="css/demo.css">
 	<script src="https://www.gstatic.com/firebasejs/5.7.0/firebase.js"></script>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+	<!-- Custom script for authentication - see documentation for more details-->
+	<script src="./js/firebase_auth.js"></script>
+
 	<title>Greenpeace News Aggregator</title>
 
 </head>
@@ -171,14 +174,7 @@
 		var fakeDay = "2018-12-11"
 		console.log(today);
 
-		var config = {
-			apiKey: "AIzaSyCTeVOuJUPJ8zR5sntHd6A5BwznQ3lEnxg",
-			authDomain: "gpi-it-1225.firebaseapp.com",
-			databaseURL: "https://gpi-it-1225.firebaseio.com",
-			projectId: "gpi-it-1225",
-			storageBucket: "gpi-it-1225.appspot.com",
-		};
-		firebase.initializeApp(config);
+		firebase.initializeApp(firebaseAuth);
 		var database = firebase.database()
 		var dbRef = database.ref('/' + today + '/');
 		dbRef.on('value', gotData, errData)

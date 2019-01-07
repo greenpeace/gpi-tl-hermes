@@ -12,6 +12,8 @@
 	<link rel="stylesheet" href="css/demo.css">
 	<script src="https://www.gstatic.com/firebasejs/5.7.0/firebase.js"></script>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+
 	<!-- Custom script for authentication - see documentation for more details-->
 	<script src="./js/firebase_auth.js"></script>
 
@@ -27,124 +29,33 @@
 
 <body>
 
-
+	<div id="key" style="font-size:0.8em;width:172px;text-align: center;right:0;background:#303e49;z-index: 1;top:0;position:fixed; font-family:'Open Sans', sans-serif;padding:5px">
+		<span style="line-height:30px;color:green">Positive</span>
+		<span style="line-height:30px;color:orange">Neutral</span>
+		<span style="line-height:30px;color:red">Negative</span>
+	</div>
 	<div class="header">
-		<header>
-			<h1>Media Aggregator & Sentiment Analysis</h1>
+		<header style="line-height:50px">
+			<h1 style="">HERMES</h1>
+			<h4 style="font-size:0.6em">News Aggregator and Sentiment Analysis</h4>
 		</header>
 	</div>
 
 
 	<section class="cd-timeline js-cd-timeline">
 		<div id="articleholder" class="cd-timeline__container">
-			<div class="cd-timeline__block js-cd-block">
-				<div class="cd-timeline__img cd-timeline__img--picture js-cd-img">
-				</div>
 
-				<!-- cd-timeline__img -->
-				<div class="cd-timeline__content js-cd-content">
-					<h2>The Guardian </h2>
-					<p>
-						<h1>VICTORY! Holland & Barrett ditch krill oil to protect the Antarctic</h1>
-					</p>
-					<p>It’s not been a great week for the krill industry. This week, Greenpeace have taken action on land and at sea to call out the massive fishing vessels that are steaming into sensitive Antarctic waters and targeting the bedrock of the
-						Antarctic food
-						chain: tiny shrimp-like krill. And…</p>
-					<a href="https://www.greenpeace.org.uk/victory-holland-barrett-ditches-krill-oil-protect-antarctic/" class="cd-timeline__read-more">Read more</a>
-					<span class="cd-timeline__date">10 December 2018</span>
-				</div>
-			</div>
-
-
-			<div class="cd-timeline__block js-cd-block">
-				<div class="cd-timeline__img cd-timeline__img--movie js-cd-img">
-				</div>
-				<div class="cd-timeline__content js-cd-content">
-					<h2>The Guardian </h2>
-					<p>
-						<h1>Title of section 2</h1>
-					</p>
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto, optio, dolorum provident rerum aut hic quasi placeat iure tempora laudantium ipsa ad debitis unde?</p>
-					<a href="#0" class="cd-timeline__read-more">Read more</a>
-					<span class="cd-timeline__date">10 December 2018</span>
-				</div>
-			</div>
-
-
-			<div class="cd-timeline__block js-cd-block">
-				<div class="cd-timeline__img cd-timeline__img--picture js-cd-img">
-				</div>
-
-
-				<div class="cd-timeline__content js-cd-content">
-					<h2>The Guardian </h2>
-					<p>
-						<h1>Title of section 2</h1>
-					</p>
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi, obcaecati, quisquam id molestias eaque asperiores voluptatibus cupiditate error assumenda delectus odit similique earum voluptatem doloremque dolorem ipsam quae rerum quis.
-						Odit,
-						itaque, deserunt corporis vero ipsum nisi eius odio natus ullam provident pariatur temporibus quia eos repellat consequuntur perferendis enim amet quae quasi repudiandae sed quod veniam dolore possimus rem voluptatum eveniet eligendi quis
-						fugiat
-						aliquam sunt similique aut adipisci.</p>
-					<a href="#0" class="cd-timeline__read-more">Read more</a>
-					<span class="cd-timeline__date">10 December 2018</span>
-				</div>
-			</div>
-
-
-			<div class="cd-timeline__block js-cd-block">
-				<div class="cd-timeline__img cd-timeline__img--location js-cd-img">
-				</div>
-
-
-				<div class="cd-timeline__content js-cd-content">
-					<h2>The Guardian </h2>
-					<p>
-						<h1>Title of section 2</h1>
-					</p>
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto, optio, dolorum provident rerum aut hic quasi placeat iure tempora laudantium ipsa ad debitis unde? Iste voluptatibus minus veritatis qui ut.</p>
-					<a href="#0" class="cd-timeline__read-more">Read more</a>
-					<span class="cd-timeline__date">9 December 2018</span>
-				</div>
-			</div>
-
-
-			<div class="cd-timeline__block js-cd-block">
-				<div class="cd-timeline__img cd-timeline__img--location js-cd-img">
-				</div>
-
-				<div class="cd-timeline__content js-cd-content">
-					<h2>The Guardian </h2>
-					<p>
-						<h1>Title of section 2</h1>
-					</p>
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto, optio, dolorum provident rerum.</p>
-					<a href="#0" class="cd-timeline__read-more">Read more</a>
-					<span class="cd-timeline__date">7 December 2018</span>
-				</div>
-			</div>
-
-
-			<div class="cd-timeline__block js-cd-block">
-				<div class="cd-timeline__img cd-timeline__img--movie js-cd-img">
-				</div>
-
-				<div class="cd-timeline__content js-cd-content">
-					<h2>The Guardian </h2>
-					<p>
-						<h1>Title of section 2 - Category <h1>
-					</p>
-					<p>This is the content of the last section</p>
-					<span class="cd-timeline__date">7 December 2018</span>
-				</div>
-			</div>
 		</div>
 	</section>
 
 	<script>
+		let todaysdate = moment().format('YYYY-MM-DD')
+		console.log(todaysdate)
+		let oldestloadeddate
+
 		function addArticle(title, source, category, body, date, url, sentiment) {
-			if (sentiment <= -.4) {
-				$("#articleholder").append('<div class="cd-timeline__block js-cd-block"><div style="background:red" class="cd-timeline__img js-cd-img"></div><div class="cd-timeline__content js-cd-content"><h2>' + title + '</h2><p><h1>' + source + " - " +
+			if (sentiment <= -0.4) {
+				$('#articleholder').append('<div class="cd-timeline__block js-cd-block"><div style="background:red" class="cd-timeline__img js-cd-img"></div><div class="cd-timeline__content js-cd-content"><h2>' + title + '</h2><p><h1>' + source + ' - ' +
 					category + '</h1></p><p>' + body + '</p><a href="' + url + '" class="cd-timeline__read-more">Read more</a><span class="cd-timeline__date">' + date + '</span> </div></div>')
 			} else if (sentiment > -.4 && sentiment <= 0) {
 				$("#articleholder").append('<div class="cd-timeline__block js-cd-block"><div style="background:orange" class="cd-timeline__img js-cd-img"></div><div class="cd-timeline__content js-cd-content"><h2>' + title + '</h2><p><h1>' + source + " - " +
@@ -155,87 +66,109 @@
 			}
 		}
 
-		function getArticles() {
-		//what do you need?
-		// json array
-		// title - body - subtitle(source) - sentiment score - categories (sub categories) -
-		var today = new Date();
-		var dd = today.getDate();
-		var mm = today.getMonth() + 1; //January is 0!
-		var yyyy = today.getFullYear();
-		if (dd < 10) {
-			dd = '0' + dd
-		}
-		if (mm < 10) {
-			mm = '0' + mm
-		}
+		firebase.initializeApp(firebaseAuth)
+		let database = firebase.database()
 
-		today = yyyy + '/' + mm + '/' + dd;
-		var fakeDay = "2018-12-11"
-		console.log(today);
 
-		firebase.initializeApp(firebaseAuth);
-		var database = firebase.database()
-		var dbRef = database.ref('data/' + today + '/');
-		dbRef.on('value', gotData, errData)
+		getArticles(todaysdate)
 
+		function getArticles(d) {
+			let dbRef = database.ref('data/' + d + '/')
+			// console.log(firebase.name)
+			// console.log(firebase.database())
+			dbRef.on('value', gotData, errData)
+
+			oldestloadeddate = d
 		}
 
 
 		function gotData(data) {
 			//generates todays date
-			var today = new Date();
-			var dd = today.getDate();
-			var mm = today.getMonth() + 1; //January is 0!
-			var yyyy = today.getFullYear();
+			let today = new Date()
+			let dd = today.getDate()
+			let mm = today.getMonth() + 1 // January is 0!
+			let yyyy = today.getFullYear()
 			if (dd < 10) {
 				dd = '0' + dd
 			}
 			if (mm < 10) {
 				mm = '0' + mm
 			}
-			today = yyyy + '/' + mm + '/' + dd;
+			today = yyyy + '/' + mm + '/' + dd
 
-//		console.log(data.val());
+			// console.log(data.val());
 
-			//get all results
-			var results = data.val()
+			// get all results
+			let results = data.val()
+			// gets results IDs (keys) and adds to array
+			if (results !== null) {
+				let keys = Object.keys(results)
+				// console.log(keys);
+				// console.log(results);
 
-			//gets results IDs (keys) and adds to array
-			var keys = Object.keys(results)
+				// loops through keys
+				for (let i = 0; i < keys.length; i++) {
+					// uses individual key to grab each thing
+					let k = keys[i]
+					// gets the things from each key
+					let title = results[k].source.title
+					let author = results[k].source.author
+					let body = results[k].source.body.substring(0, 240) + ' ...'
+					let source = results[k].source.origin
+					let date = results[k].source.date
+					let url = results[k].source.url
+					let sentimentScore = results[k].sentiment.overall.score
+					let categoryString = ''
+					let categories = results[k].sentiment.overall.categories
+					if (categories !== undefined) {
+						// console.log(categories)
+						for (let j = 0; j < categories.length; j++) {
+							// prints list of categories
+							// console.log(categories[j]);
+							categoryString += ' ' + categories[j].category.split("/")[categories[j].category.split("/").length - 1] + ", "
 
-			console.log(keys);
-			console.log(results);
+						}
+						categoryString = categoryString.substring(0, categoryString.length - 2)
+					}
 
-			//loops through keys
-			for (var i = 0; i < keys.length; i++) {
+					// console.log(title, author);
+					// title, source, category, body, date, url, sentiment
+					addArticle(title, source, categoryString, body, date, url, sentimentScore)
 
-				//uses individual key to grab each thing
-				var k = keys[i];
-
-				//gets the things from each key
-				var title = results[k].source.title;
-				var author = results[k].source.author;
-				var body = results[k].source.body;
-				var sentimentScore = results[k].sentiment.overall.score;
-
-				var categories = results[k].sentiment.overall.categories;
-				for (var i = 0; i < categories.length; i++) {
-					//prints list of categories
-					console.log(categories[i]);
+				}
+				if (document.documentElement.scrollHeight === document.documentElement.clientHeight) {
+					getNextDay()
 				}
 
-				console.log(title, author);
+				} else {
+				console.log("Retrieving data")
+				getNextDay()
 			}
+
 		}
 
 		function errData(err) {
-			console.log('Error!');
-			console.log(err);
+			console.log('Error!')
+			console.log(err)
+		}
+
+		// when the user scrolls to the bottom of the page should trigger alert
+		$(window).scroll(function () {
+			if ($(window).scrollTop() + $(window).height() > $(document).height() - 10) {
+				// when working change to a call to getArticles with yesterdays date
+				// code here
+				$(window).scrollTop($(window).scrollTop() + 11)
+				getNextDay()
+			}
+		})
+
+		function getNextDay () {
+	 		let day = moment(oldestloadeddate).subtract(1, 'days').format("YYYY-MM-DD")
+			console.log(day)
+			getArticles(day)
 		}
 	</script>
 	<script src="js/timeline.js"></script>
-	<script src="js/content.js"></script>
 </body>
 
 </html>

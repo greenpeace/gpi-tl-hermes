@@ -50,10 +50,11 @@ Vertical Timeline - by CodyHouse.co
 
 -------------------------------- */
 header {
-  height: 200px;
-  line-height: 200px;
+  height: 150px;
+  line-height: 150px;
   text-align: center;
   background: #303e49;
+  font-size: 25px;
 
 }
 
@@ -63,8 +64,8 @@ header h1 {
 
 @media only screen and (min-width: 1170px) {
   header {
-    height: 300px;
-    line-height: 300px;
+    height: 150px;
+    line-height: 200px;
   }
   header h1 {
     font-size: 2.7rem;

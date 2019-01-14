@@ -6,8 +6,9 @@ Please refer to the README in the Github repo for more structural information.
 """
 
 import json
-import datetime as dt
 import argparse
+import datetime as dt
+import requests as req
 
 from google.cloud import language as lang
 from firebase_admin import db
@@ -112,20 +113,28 @@ def upload(entries: list, nodeToday: db.Reference,
 
     """
     # current days dedup node
-    dt = dedupNode.get(shallow=True)
-    dt = [] if dt is None else dt
-    if nodeToday.key in list(dt):
+    ddp = dedupNode.get(shallow=True)
+    ddp = [] if ddp is None else ddp
+    if nodeToday.key in list(ddp):
         dedupToday = fbi.ref(f"dedup/{nodeToday.key}", get=False)
     else:
         dedupToday = dedupNode.child(nodeToday.key)
 
     for e in entries:
-        nodeToday.push(e)  # normal upload
+        noderef = nodeToday.push(e)  # normal upload
         # redundant part, stored under the corresponding date with random id
         dedupToday.push({"author": e['source']['author'],
                          "title": e['source']['title'],
                          "score": e['sentiment']['overall']['score'],
                          "magnitude": e['sentiment']['overall']['magnitude']})
+
+        now = dt.datetime.now(tz=dt.timezone.utc).isoformat()
+        postdata = {"path": noderef.path,
+                    "meta": {"timestamp": now}}
+
+        print(f"::[diag] Sending POST request to cloud function now...")
+        response = req.post(trigger, json=postdata)
+        print(f"::[diag] POST response: {response.content.decode()}")
 
 
 # #################################### [1] ################################## #
@@ -148,6 +157,11 @@ if args.creds is not None:
 
 else:
     app = fbi.setup("../firebase_creds/gpi-it-1225-fba.json")
+
+# cloud function
+with open("api_configs/cloudfunction-trigger.json", "r") as cft:
+    trigger = json.load(cft)
+    trigger = trigger['url']
 
 # natural language API client
 nlClient = lang.LanguageServiceClient()  # needs GCP credentials

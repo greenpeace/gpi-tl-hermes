@@ -53,17 +53,6 @@ def rowify(path: str, meta: dict) -> list:
         for key, value in content.items():  # keys = source, sentiment
             row[key] = value  # lift one level of nested entries
 
-        # replace number-indexed dicts with lists --> BigQuery REPEATED
-        # BigQuery doesn't like dictionaries when it expects arrays/lists
-        for arg in ["author", "tags", "misc"]:
-            row['source'][arg] = list(row['source'][arg].values())
-
-        cats = list(row['sentiment']['overall']['categories'].values())
-        row['sentiment']['overall']['categories'] = cats
-
-        con = list(row['sentiment']['content'].values())
-        row['sentiment']['content'] = con
-
         return [row]
 
     else:

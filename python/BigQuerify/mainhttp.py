@@ -21,7 +21,24 @@ app = fa.initialize_app(options={"databaseURL": "https://gpi-it-1225.firebaseio.
 
 
 def rowify(path: str, meta: dict) -> list:
-    """hurr"""
+    """Transforms the content found at `path` into a list of dicts with field-
+    keys.
+
+    Parameters
+    ----------
+    path : str
+        `path` is the full path to the newly generated node in realtime
+        database.
+    meta : dict
+        `meta` contains meta information as creation timestamp of the database
+        entry.
+
+    Returns
+    -------
+    list
+        Elements are dictionaries with a structure tied to the `hermes` table.
+
+    """
     node = db.reference(path)  # get reference
     content = node.get()
 
@@ -53,7 +70,6 @@ def rowify(path: str, meta: dict) -> list:
         print(f"Node {node.path} could not be found.")
 
     return []
-
 
 
 def bigQuerify(request) -> None:

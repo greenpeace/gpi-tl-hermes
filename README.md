@@ -18,7 +18,8 @@ from hermes.api import theguardian
   4. Make an API call + parse the response into dict/json-like object
   5. Create `Content` instance & do sentiment analysis
   6. Deduplication -> check if content of response is in RTDB and if not:
-     1. Push content to RTDB (automatically added to BigQuery)
+     1. Push content to RTDB (returns the randomly generated node key)
+     2. Send a `POST` request to a cloud function, which extracts the newly generated content from RTDB and pushes it into BigQuery
 
 ### How to use the `hermify` script
   1. Create a folder `api_configs` in the same directory as `hermes.py`. 

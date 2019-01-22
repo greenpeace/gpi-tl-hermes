@@ -102,24 +102,32 @@
 			let results = data.val()
 			// gets results IDs (keys) and adds to array
 			if (results !== null) {
-				let keys = Object.keys(results)
+				let values = [] // new array instance
+				// put all entries in the array
+				Object.values(results).forEach(val => values.push(val))
+				// sort the values by date
+				values.sort((a, b) => {
+					return new Date(b.source.date) - new Date(a.source.date)
+				})
+
+				// let keys = Object.keys(results)
 				// console.log(keys);
 				// console.log(results);
 
-				// loops through keys
-				for (let i = 0; i < keys.length; i++) {
+				// loops through sorted array
+				for (let i = 0; i < values.length; i++) {
 					// uses individual key to grab each thing
-					let k = keys[i]
+					let v = values[i]
 					// gets the things from each key
-					let title = results[k].source.title
-					let author = results[k].source.author
-					let body = results[k].source.body.substring(0, 240) + ' ...'
-					let source = results[k].source.origin
-					let date = results[k].source.date
-					let url = results[k].source.url
-					let sentimentScore = results[k].sentiment.overall.score
+					let title = v.source.title
+					let author = v.source.author
+					let body = v.source.body.substring(0, 240) + ' ...'
+					let source = v.source.origin
+					let date = v.source.date
+					let url = v.source.url
+					let sentimentScore = v.sentiment.overall.score
 					let categoryString = ''
-					let categories = results[k].sentiment.overall.categories
+					let categories = v.sentiment.overall.categories
 					if (categories !== undefined) {
 						// console.log(categories)
 						for (let j = 0; j < categories.length; j++) {
